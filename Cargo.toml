@@ -1,0 +1,25 @@
+[package]
+name = "dex-swap-invoker"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib", "lib"] 
+
+[features]
+default = []
+no-entrypoint = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+solana-program = "5.2.0"
+borsh = { version = "1.8.1", features = ["derive"] }
+
+[lints.rust]
+unexpected_cfgs = {
+    level = "warn",
+    check-cfg = ['cfg(target_os, values("solana"))']
+}
+
