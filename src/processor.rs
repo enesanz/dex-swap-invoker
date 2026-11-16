@@ -1,7 +1,11 @@
 use borsh::BorshDeserialize;
 use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubkey::Pubkey};
 
-use crate::{error::DexSwapError, instruction::InstructionData};
+use crate::{
+    error::DexSwapError,
+    instruction::InstructionData,
+    instructions::{multi_hop_swap::multi_hop_swap, swap::swap},
+};
 
 pub fn process_instruction(
     _program_id: &Pubkey,
@@ -12,13 +16,9 @@ pub fn process_instruction(
         .map_err(|_| DexSwapError::InvalidInstructionData)?;
 
     match data {
-        InstructionData::Swap(args) => {
-            // TODO invoke Swap function
-        }
-        InstructionData::MultiHopSwap(args) => {
-            // TODO invoke MultiHopSwap function
-        }
-    };
+        InstructionData::Swap(args) => swap(&args, accounts)?,
+        InstructionData::MultiHopSwap(args) => multi_hop_swap(&args, accounts)?,
+    }
 
     Ok(())
 }

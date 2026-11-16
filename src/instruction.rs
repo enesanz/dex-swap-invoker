@@ -15,7 +15,7 @@ pub enum Protocol {
 
 #[derive(Debug, BorshDeserialize)]
 pub struct SwapArgs {
-    pub dex: Protocol,
+    pub protocol: Protocol,
     pub direction: SwapDirection,
     pub amount_in: u64,
     pub min_amount_out: u64,
