@@ -23,7 +23,7 @@ pub struct SwapArgs {
 
 #[derive(Debug, BorshDeserialize)]
 pub struct MultiHopSwapArgs {
-    pub route: Vec<Protocol>,
+    pub hops: Vec<Protocol>,
     pub direction: SwapDirection,
     pub amount_in: u64,
     pub min_amount_out: u64,

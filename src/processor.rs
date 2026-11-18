@@ -12,7 +12,7 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     instruction_data: &[u8],
 ) -> ProgramResult {
-    let data = InstructionData::try_from_slice(&instruction_data)
+    let data = InstructionData::try_from_slice(instruction_data)
         .map_err(|_| DexSwapError::InvalidInstructionData)?;
 
     match data {
