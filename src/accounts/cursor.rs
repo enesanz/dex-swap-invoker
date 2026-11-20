@@ -1,7 +1,5 @@
 use solana_program::{account_info::AccountInfo, program_error::ProgramError};
 
-use crate::error::DexSwapError;
-
 pub struct AccountCursor<'a, 'info> {
     accounts: &'a [AccountInfo<'info>],
     position: usize,
@@ -27,10 +25,7 @@ impl<'a, 'info> AccountCursor<'a, 'info> {
     }
 
     pub fn take(&mut self, count: usize) -> Result<&'a [AccountInfo<'info>], ProgramError> {
-        let end = self
-            .position
-            .checked_add(count)
-            .ok_or(DexSwapError::AccountParsingProblem)?;
+        let end = self.position + count;
 
         let result = self
             .accounts
