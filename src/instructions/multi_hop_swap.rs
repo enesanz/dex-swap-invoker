@@ -5,6 +5,7 @@ use crate::{
         MultiHopSwapArgs,
         Protocol::{Pumpfun, Pumpswap, RaydiumCpmm},
     },
+    protocols::pumpfun::accounts::PumpFunAccounts,
 };
 use solana_program::{account_info::AccountInfo, program_error::ProgramError};
 
@@ -26,7 +27,9 @@ pub fn multi_hop_swap(
 
     for protocol in args.hops.iter() {
         match *protocol {
-            Pumpfun => {}
+            Pumpfun => {
+                let pump_accounts = PumpFunAccounts::parse(&mut cursor)?;
+            }
             Pumpswap => {}
             RaydiumCpmm => {}
         }
