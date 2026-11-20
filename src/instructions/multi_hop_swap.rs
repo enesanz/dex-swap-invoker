@@ -5,7 +5,7 @@ use crate::{
         MultiHopSwapArgs,
         Protocol::{Pumpfun, Pumpswap, RaydiumCpmm},
     },
-    protocols::pumpfun::accounts::PumpFunAccounts,
+    protocols::{pumpfun::accounts::PumpFunAccounts, pumpswap::accounts::PumpSwapAccounts},
 };
 use solana_program::{account_info::AccountInfo, program_error::ProgramError};
 
@@ -25,12 +25,19 @@ pub fn multi_hop_swap(
 
     let route = RouteAccounts::parse(&mut cursor, mint_count)?;
 
-    for protocol in args.hops.iter() {
+    for (index, protocol) in args.hops.iter().enumerate() {
+        let input_mint = route.mint(index)?;
+        let output_mint = route.mint(index + 1)?;
+
+        let input_token_account = route.user_token_account(index)?;
+        let output_token_account = route.user_token_account(index + 1)?;
         match *protocol {
             Pumpfun => {
-                let pump_accounts = PumpFunAccounts::parse(&mut cursor)?;
+                let pumpfun = PumpFunAccounts::parse(&mut cursor)?;
             }
-            Pumpswap => {}
+            Pumpswap => {
+                let pumpswap = PumpSwapAccounts::parse(&mut cursor)?;
+            }
             RaydiumCpmm => {}
         }
     }
