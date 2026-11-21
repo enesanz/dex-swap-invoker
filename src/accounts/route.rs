@@ -30,3 +30,10 @@ impl<'a, 'info> RouteAccounts<'a, 'info> {
             .ok_or(DexSwapError::RouteAccountOutOfBound.into())
     }
 }
+
+pub struct SwapContext<'a, 'info> {
+    pub input_mint: &'a AccountInfo<'info>,
+    pub output_mint: &'a AccountInfo<'info>,
+    pub input_token_account: &'a AccountInfo<'info>,
+    pub output_token_account: &'a AccountInfo<'info>,
+}
