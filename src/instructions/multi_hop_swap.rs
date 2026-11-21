@@ -1,11 +1,14 @@
 use crate::{
     accounts::{cursor::AccountCursor, route::RouteAccounts, shared::SharedAccounts},
     error::DexSwapError,
-    instruction::{
+    ix_data::{
         MultiHopSwapArgs,
-        Protocol::{Pumpfun, Pumpswap, RaydiumCpmm},
+        Protocol::{Pumpfun, Pumpswap, RaydiumCpmm, Whirlpool},
     },
-    protocols::{pumpfun::accounts::PumpFunAccounts, pumpswap::accounts::PumpSwapAccounts},
+    protocols::{
+        pumpfun::accounts::PumpFunAccounts, pumpswap::accounts::PumpSwapAccounts,
+        whirlpool::accounts::WhirlpoolAccounts,
+    },
 };
 use solana_program::{account_info::AccountInfo, program_error::ProgramError};
 
@@ -38,7 +41,9 @@ pub fn multi_hop_swap(
             Pumpswap => {
                 let pumpswap = PumpSwapAccounts::parse(&mut cursor)?;
             }
-            RaydiumCpmm => {}
+            Whirlpool => {
+                let whirlpool = WhirlpoolAccounts::parse(&mut cursor)?;
+            }
         }
     }
 

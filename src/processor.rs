@@ -3,8 +3,8 @@ use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, pubke
 
 use crate::{
     error::DexSwapError,
-    instruction::InstructionData,
     instructions::{multi_hop_swap::multi_hop_swap, swap::swap},
+    ix_data::InstructionData,
 };
 
 pub fn process_instruction(

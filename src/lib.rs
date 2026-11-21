@@ -1,7 +1,7 @@
 pub mod accounts;
 pub mod error;
-pub mod instruction;
 pub mod instructions;
+pub mod ix_data;
 pub mod processor;
 pub mod protocols;
 pub mod utils;

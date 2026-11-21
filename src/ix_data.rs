@@ -10,7 +10,7 @@ pub enum SwapDirection {
 pub enum Protocol {
     Pumpfun,
     Pumpswap,
-    RaydiumCpmm,
+    Whirlpool,
 }
 
 #[derive(Debug, BorshDeserialize)]
