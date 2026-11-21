@@ -13,3 +13,17 @@ pub fn get_token_program<'a, 'info>(
         Err(ProgramError::IncorrectProgramId)
     }
 }
+
+pub fn read_token_amount(account_info: &AccountInfo) -> Result<u64, ProgramError> {
+    let data = account_info.try_borrow_data()?;
+
+    let amount_bytes = data.get(64..72).ok_or(ProgramError::InvalidAccountData)?;
+
+    let amount = u64::from_le_bytes(
+        amount_bytes
+            .try_into()
+            .map_err(|_| ProgramError::InvalidAccountData)?,
+    );
+
+    Ok(amount)
+}
