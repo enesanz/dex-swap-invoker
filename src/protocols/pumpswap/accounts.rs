@@ -3,6 +3,7 @@ use solana_program::{account_info::AccountInfo, program_error::ProgramError};
 use crate::accounts::cursor::AccountCursor;
 
 pub struct PumpSwapAccounts<'a, 'info> {
+    pub global: &'a AccountInfo<'info>,
     pub pool: &'a AccountInfo<'info>,
     pub base_vault: &'a AccountInfo<'info>,
     pub quote_vault: &'a AccountInfo<'info>,
@@ -18,6 +19,7 @@ impl<'a, 'info> PumpSwapAccounts<'a, 'info> {
 
     pub fn parse(cursor: &mut AccountCursor<'a, 'info>) -> Result<Self, ProgramError> {
         Ok(Self {
+            global: cursor.next()?,
             pool: cursor.next()?,
             base_vault: cursor.next()?,
             quote_vault: cursor.next()?,

@@ -3,7 +3,7 @@ use solana_program::program_error::ProgramError;
 pub enum DexSwapError {
     InvalidInstructionData = 1,
     InvalidAccountLayout = 2,
-    NotEnoughtHops = 3,
+    NotEnoughHops = 3,
     RouteAccountOutOfBound = 4,
 }
 
