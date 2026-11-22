@@ -43,7 +43,7 @@ pub fn multi_hop_swap(
             output_token_account: route.user_token_account(index + 1)?,
         };
 
-        let amount_in = if index == 0 {
+        let amount_in = if index == 0 && args.amount_in > 0 {
             args.amount_in
         } else {
             read_token_amount(swap_ctx.input_token_account)?
@@ -51,7 +51,7 @@ pub fn multi_hop_swap(
 
         let is_last_hop = index == args.hops.len() - 1;
 
-        let min_out = if is_last_hop { args.min_amount_out } else { 0 };
+        let min_out = if is_last_hop { args.min_amount_out } else { 1 };
 
         match *protocol {
             Pumpfun => {
