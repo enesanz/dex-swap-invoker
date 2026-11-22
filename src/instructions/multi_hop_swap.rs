@@ -13,7 +13,7 @@ use crate::{
     protocols::{
         pumpfun::{self, accounts::PumpFunAccounts},
         pumpswap::{self, accounts::PumpSwapAccounts},
-        whirlpool::accounts::WhirlpoolAccounts,
+        whirlpool::{self, accounts::WhirlpoolAccounts, invoke},
     },
     utils::utils::read_token_amount,
 };
@@ -80,6 +80,15 @@ pub fn multi_hop_swap(
             }
             Whirlpool => {
                 let whirlpool = WhirlpoolAccounts::parse(&mut cursor)?;
+
+                match args.direction {
+                    SwapDirection::Buy => whirlpool::invoke::buy_swap_v2(
+                        amount_in, min_out, &shared, &swap_ctx, &whirlpool,
+                    )?,
+                    SwapDirection::Sell => whirlpool::invoke::sell_swap_v2(
+                        amount_in, min_out, &shared, &swap_ctx, &whirlpool,
+                    )?,
+                }
             }
         }
     }
