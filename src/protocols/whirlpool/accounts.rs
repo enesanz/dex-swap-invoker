@@ -10,6 +10,7 @@ pub struct WhirlpoolAccounts<'a, 'info> {
     pub tick_array_1: &'a AccountInfo<'info>,
     pub tick_array_2: &'a AccountInfo<'info>,
     pub oracle: &'a AccountInfo<'info>,
+    pub program: &'a AccountInfo<'info>,
 }
 
 impl<'a, 'info> WhirlpoolAccounts<'a, 'info> {
@@ -24,6 +25,7 @@ impl<'a, 'info> WhirlpoolAccounts<'a, 'info> {
             tick_array_1: cursor.next()?,
             tick_array_2: cursor.next()?,
             oracle: cursor.next()?,
+            program: cursor.next()?,
         })
     }
 }

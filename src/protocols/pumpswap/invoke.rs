@@ -5,14 +5,14 @@ use solana_program::program::invoke;
 use solana_program::program_error::ProgramError;
 
 use crate::accounts::route::SwapContext;
+use crate::accounts::shared::SharedAccounts;
 use crate::protocols::pumpswap::accounts::PumpSwapAccounts;
 use crate::utils::utils::get_token_program;
-use crate::{accounts::shared::SharedAccounts, protocols::pumpfun::accounts::PumpFunAccounts};
 
 const BUY_EXACT_IN_V2_DISCR: [u8; 8] = [194, 171, 28, 70, 104, 77, 91, 47];
 const SELL_V2_DISCR: [u8; 8] = [93, 246, 130, 60, 231, 233, 64, 178];
 
-pub fn buy_exact_in_v3<'a, 'info>(
+pub fn buy_exact_in_v2<'a, 'info>(
     amount_in: u64,
     min_amount_out: u64,
     shared: &SharedAccounts<'a, 'info>,
@@ -85,12 +85,12 @@ pub fn buy_exact_in_v3<'a, 'info>(
     Ok(())
 }
 
-pub fn sell_v3<'a, 'info>(
+pub fn sell_v2<'a, 'info>(
     amount_in: u64,
     min_amount_out: u64,
     shared: &SharedAccounts<'a, 'info>,
     swap_ctx: &SwapContext<'a, 'info>,
-    pump: &PumpFunAccounts<'a, 'info>,
+    pump: &PumpSwapAccounts<'a, 'info>,
 ) -> Result<(), ProgramError> {
     let accounts = vec![
         AccountMeta::new(*pump.pool.key, false),

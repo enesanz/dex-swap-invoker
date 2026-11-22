@@ -11,8 +11,8 @@ use crate::{
         SwapDirection,
     },
     protocols::{
-        pumpfun::{accounts::PumpFunAccounts, invoke},
-        pumpswap::accounts::PumpSwapAccounts,
+        pumpfun::{self, accounts::PumpFunAccounts},
+        pumpswap::{self, accounts::PumpSwapAccounts},
         whirlpool::accounts::WhirlpoolAccounts,
     },
     utils::utils::read_token_amount,
@@ -58,16 +58,25 @@ pub fn multi_hop_swap(
                 let pumpfun = PumpFunAccounts::parse(&mut cursor)?;
 
                 match args.direction {
-                    SwapDirection::Buy => {
-                        invoke::buy_exact_in_v3(amount_in, min_out, &shared, &swap_ctx, &pumpfun)?
-                    }
+                    SwapDirection::Buy => pumpfun::invoke::buy_exact_in_v3(
+                        amount_in, min_out, &shared, &swap_ctx, &pumpfun,
+                    )?,
                     SwapDirection::Sell => {
-                        invoke::sell_v3(amount_in, min_out, &shared, &swap_ctx, &pumpfun)?
+                        pumpfun::invoke::sell_v3(amount_in, min_out, &shared, &swap_ctx, &pumpfun)?
                     }
                 }
             }
             Pumpswap => {
                 let pumpswap = PumpSwapAccounts::parse(&mut cursor)?;
+
+                match args.direction {
+                    SwapDirection::Buy => pumpswap::invoke::buy_exact_in_v2(
+                        amount_in, min_out, &shared, &swap_ctx, &pumpswap,
+                    )?,
+                    SwapDirection::Sell => pumpswap::invoke::sell_v2(
+                        amount_in, min_out, &shared, &swap_ctx, &pumpswap,
+                    )?,
+                }
             }
             Whirlpool => {
                 let whirlpool = WhirlpoolAccounts::parse(&mut cursor)?;
