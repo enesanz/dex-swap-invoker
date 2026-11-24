@@ -1,8 +1,13 @@
 # dex-swap-invoker
 
+<p align="center">
+
 **Native Solana Multi-DEX Swap Execution Program**
 
-[Solana](https://solana.com/) · [Rust](https://www.rust-lang.org/)
+[![Solana](https://img.shields.io/badge/Solana-Program-9945FF?logo=solana)](https://solana.com/)
+[![Rust](https://img.shields.io/badge/Rust-2024-orange?logo=rust)](https://www.rust-lang.org/)
+
+</p>
 
 `dex-swap-invoker` is a native Solana program that executes direct and multi-hop token swaps across multiple DEX protocols using Cross-Program Invocations (CPI).
 
