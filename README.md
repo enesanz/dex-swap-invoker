@@ -1,13 +1,8 @@
 # dex-swap-invoker
 
-<p align="center">
-
 **Native Solana Multi-DEX Swap Execution Program**
 
-[![Solana](https://img.shields.io/badge/Solana-Program-9945FF?logo=solana)](https://solana.com/)
-[![Rust](https://img.shields.io/badge/Rust-2024-orange?logo=rust)](https://www.rust-lang.org/)
-
-</p>
+[Solana](https://solana.com/) · [Rust](https://www.rust-lang.org/)
 
 `dex-swap-invoker` is a native Solana program that executes direct and multi-hop token swaps across multiple DEX protocols using Cross-Program Invocations (CPI).
 
@@ -38,6 +33,53 @@ It provides a unified execution layer to chain swaps across different protocols 
 3. Executes each swap through the corresponding DEX CPI.
 4. Uses each hop's output as the next hop's input.
 5. Validates the minimum final output amount.
+
+## Multi-Hop Swap Example
+
+The program allows chaining multiple swaps across different DEX protocols within a single transaction.
+
+For example, swapping Token A into Token C through Token B:
+
+```text
+                 Single Solana Transaction
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│  Token A                                        │
+│     │                                           │
+│     ▼                                           │
+│  ┌──────────────┐                               │
+│  │   Pump.fun   │                               │
+│  └──────────────┘                               │
+│     │                                           │
+│     ▼                                           │
+│  Token B                                        │
+│     │                                           │
+│     ▼                                           │
+│  ┌──────────────┐                               │
+│  │   PumpSwap   │                               │
+│  └──────────────┘                               │
+│     │                                           │
+│     ▼                                           │
+│  Token C                                        │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+The route is defined as:
+
+```rust
+MultiHopSwapArgs {
+    hops: vec![
+        Protocol::Pumpfun,
+        Protocol::Pumpswap,
+    ],
+    direction: SwapDirection::Buy,
+    amount_in,
+    min_amount_out,
+}
+```
+
+Each hop consumes the output of the previous swap. If any swap fails or the final output is below `min_amount_out`, the entire transaction is reverted.
 
 ## Instruction
 
