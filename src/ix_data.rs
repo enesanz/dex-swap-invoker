@@ -14,23 +14,9 @@ pub enum Protocol {
 }
 
 #[derive(Debug, BorshDeserialize)]
-pub struct SwapArgs {
-    pub protocol: Protocol,
-    pub direction: SwapDirection,
-    pub amount_in: u64,
-    pub min_amount_out: u64,
-}
-
-#[derive(Debug, BorshDeserialize)]
 pub struct MultiHopSwapArgs {
     pub hops: Vec<Protocol>,
     pub direction: SwapDirection,
     pub amount_in: u64,
     pub min_amount_out: u64,
-}
-
-#[derive(Debug, BorshDeserialize)]
-pub enum InstructionData {
-    Swap(SwapArgs),
-    MultiHopSwap(MultiHopSwapArgs),
 }

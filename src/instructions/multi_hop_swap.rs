@@ -13,7 +13,7 @@ use crate::{
     protocols::{
         pumpfun::{self, accounts::PumpFunAccounts},
         pumpswap::{self, accounts::PumpSwapAccounts},
-        whirlpool::{self, accounts::WhirlpoolAccounts, invoke},
+        whirlpool::{self, accounts::WhirlpoolAccounts},
     },
     utils::utils::read_token_amount,
 };
@@ -23,7 +23,7 @@ pub fn multi_hop_swap(
     args: &MultiHopSwapArgs,
     accounts: &[AccountInfo],
 ) -> Result<(), ProgramError> {
-    if args.hops.len() < 2 {
+    if args.hops.len() < 1 {
         return Err(DexSwapError::NotEnoughHops.into());
     }
 
@@ -91,6 +91,10 @@ pub fn multi_hop_swap(
                 }
             }
         }
+    }
+
+    if !cursor.is_finished() {
+        return Err(DexSwapError::InvalidAccountLayout.into());
     }
 
     Ok(())
